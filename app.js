@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-require('dotenv').config({
+const { createArtist } = require('./controllers/Artist.js');
+const { listArtists } = require('./controllers/Artist.js');
+const { getArtist } = require('./controllers/Artist.js');
+
+const dotenv = require('dotenv').config({
   path: path.join(__dirname, './settings.env'),
 });
 
@@ -13,5 +17,9 @@ mongoose.connect(process.env.DATABASE_CONN, { useNewUrlParser: true });
 
 app.use(bodyParser.json());
 app.get('/', (req, res) => res.send('Hello MongoDB'));
+
+app.post('/Artist', createArtist);
+app.get('/Artist', listArtists);
+app.get('/Artist/:artistId', getArtist);
 
 app.listen(3000, () => console.log('App listening on port 3000...'));
