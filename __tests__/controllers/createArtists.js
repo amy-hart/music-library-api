@@ -1,4 +1,4 @@
-// TESTS
+// TESTS - POST ARTIST
 
 const mongoose = require('mongoose');
 const path = require('path');
@@ -45,10 +45,16 @@ describe('Artist POST Endpoint', () => {
 
     });
   }) // End IT
-  afterAll((done) => {
-    mongoose.disconnect().then(() => {
-      setTimeout(done, 500)
+  afterEach((done) => {
+    Artist.collection.drop((e) => {
+      if (e) {
+        console.log(e);
+      }
+      done();
     });
+  });
+  afterAll((done) => {
+    mongoose.connection.close();
   });
 }) // End describe 
 

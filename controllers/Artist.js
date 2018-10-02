@@ -43,3 +43,31 @@ exports.getArtist = (req, res) => {
   });
 };
 
+// Controller for handling '/Artist/:artistId' put requests 
+exports.putArtist = (req, res) => {
+  Artist.findById(req.params.artistId, (err, artist) => {
+    if (err) {
+      res.json('Could not find artist');
+    }
+    
+    artist.set({ name: req.body.name });
+    artist.set({ genre: req.body.genre });
+    artist.save((updateErr, artistUpdated) => {
+      if (updateErr) {
+        res.json('Could not update');
+      }
+      res.json(artistUpdated);
+    });
+  });
+};
+
+// Controller for handling '/Artist/:artistId' delete requests
+
+exports.deleteArtist = (req, res) => {
+  Artist.findByIdAndRemove(req.params.artistId, (err, artist) => {
+    if (err) {
+      res.json('Could not find artist');
+    }
+    res.send(artist);
+  });
+};
